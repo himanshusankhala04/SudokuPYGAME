@@ -25,6 +25,7 @@ def statsScreen(win,db):
 
             if event.type == pygame.QUIT:
                 pygame.quit()
+                quit()
             elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pos()[0] in range(230,331) and pygame.mouse.get_pos()[1] in range(360,401):
                 pygame.draw.rect(win,blue,(230,360,100,40))
                 pygame.display.update()

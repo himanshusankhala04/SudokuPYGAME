@@ -20,8 +20,17 @@ light_green = (0,255,0)
 blue = (0,0,255)
 
 class Grid:
-    board =[[7, 8, 5, 4, 3, 9, 1, 0, 6], [6, 1, 2, 8, 7, 5, 3, 4, 9], [4, 9, 3, 6, 2, 1, 5, 7, 8], [8, 5, 7, 9, 4, 3, 2, 6, 1], [2, 6, 1, 7, 5, 8, 9, 3, 4], [9, 3, 4, 1, 6, 2, 7, 8, 5], [5, 7, 8, 3, 9, 4, 6, 1, 2], [1, 2, 6, 5, 8, 7, 4, 9, 3], [3, 4, 9, 2, 1, 6, 8, 5, 0]]
-
+    board =[
+        [7, 8, 0, 4, 0, 0, 1, 2, 0],
+        [6, 0, 0, 0, 7, 5, 0, 0, 9],
+        [0, 0, 0, 6, 0, 1, 0, 7, 8],
+        [0, 0, 7, 0, 4, 0, 2, 6, 0],
+        [0, 0, 1, 0, 5, 0, 9, 3, 0],
+        [9, 0, 4, 0, 6, 0, 0, 0, 5],
+        [0, 7, 0, 3, 0, 0, 0, 1, 2],
+        [1, 2, 0, 0, 0, 7, 4, 0, 0],
+        [0, 4, 9, 2, 0, 6, 0, 0, 7]
+        ]
     def __init__(self, rows, cols, width, height):
         self.rows = rows
         self.cols = cols
@@ -189,6 +198,7 @@ def gameScreen(win,db):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_1:
                     key = 1
@@ -229,7 +239,7 @@ def gameScreen(win,db):
                                 time.sleep(0.7)
                                 print("Win")
                                 db.add_data((1,0,play_time))
-                                winScreen(win)
+                                winScreen(win,db)
                                 run = False
 
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -245,8 +255,8 @@ def gameScreen(win,db):
 
         if strikes == 10:
             print("Lost")
-            db.add_data((1,1,1000000000000000000))
-            loseScreen(win)
+            db.add_data((0,1,1000000000000000000))
+            loseScreen(win,db)
 
             run = False
 
