@@ -14,11 +14,11 @@ light_green = (0,255,0)
 blue = (0,0,255)
 
 
-def winScreen(win):
+def loseScreen(win):
     run = True
     while run:
         for event in pygame.event.get():
-            
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
@@ -34,8 +34,7 @@ def winScreen(win):
 
 
         win.fill(white)
-        message_to_screen("You Won!", green, 60, 180, 100, win)
-        message_to_screen("Congratulations!", black, 50, 125, 230, win)
+        message_to_screen("You Lost!", green, 60, 180, 100, win)
 
         pygame.draw.rect(win,green,(120,350,140,40))
         text_to_button("PLAY AGAIN",black,120,350,140,40,win)

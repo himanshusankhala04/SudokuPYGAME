@@ -4,6 +4,7 @@ import time
 from database import DataBase
 from methods import format_time,message_to_screen,text_to_button
 from winWindow import winScreen
+from loseWindow import loseScreen
 pygame.font.init()
 pygame.init()
 
@@ -41,16 +42,19 @@ class Grid:
 
             if valid(self.model, val, (row,col)) and solve(self.model):
                 self.cubes[row][col].success = True
+                self.cubes[row][col].isRed = False
                 return True
             else:
                 self.cubes[row][col].set_red(val)
-                self.cubes[row][col].set_temp(0)
+                self.cubes[row][col].set(0)
                 self.update_model()
                 return False
 
     def sketch(self, val):
         row, col = self.selected
         self.cubes[row][col].set_temp(val)
+
+
 
 
 
@@ -101,7 +105,7 @@ class Grid:
     def is_finished(self):
         for i in range(self.rows):
             for j in range(self.cols):
-                if self.cubes[i][j].value == 0:
+                if self.cubes[i][j].value == 0 or self.cubes[i][j].isRed:
                     return False
         return True
 
@@ -130,17 +134,15 @@ class Cube:
         x = self.col * gap
         y = self.row * gap
 
-
-        if self.temp != 0 and self.value == 0:
+        if self.isRed :
+            text = fnt.render(str(self.temp), 1, red)
+            win.blit(text, (x + (gap/2 - text.get_width()/2), y + (gap/2 - text.get_height()/2)))
+        elif self.temp != 0 and self.value == 0:
             text = fnt.render(str(self.temp), 1, (128,128,128))
             win.blit(text, (x+5, y+5))
         elif not(self.value == 0):
-            if self.isRed:
-                text = fnt.render(str(self.value), 1, red)
-                win.blit(text, (x + (gap/2 - text.get_width()/2), y + (gap/2 - text.get_height()/2)))
-            else:
-                text = fnt.render(str(self.value), 1, black)
-                win.blit(text, (x + (gap/2 - text.get_width()/2), y + (gap/2 - text.get_height()/2)))
+            text = fnt.render(str(self.value), 1, black)
+            win.blit(text, (x + (gap/2 - text.get_width()/2), y + (gap/2 - text.get_height()/2)))
 
         if self.selected:
             if self.success:
@@ -152,7 +154,7 @@ class Cube:
         self.value = val
 
     def set_red(self, val):
-        self.value = val
+        self.temp = val
         self.isRed=True
 
     def set_temp(self, val):
@@ -215,12 +217,13 @@ def gameScreen(win,db):
                         if board.cubes[i][j].temp != 0:
                             if board.place(board.cubes[i][j].temp):
                                 print("Success")
+
                             else:
                                 print("Wrong")
                                 strikes += 1
                             key = None
 
-                            if board.is_finished() and board.cubes[board.selected[0]][board.selected[1]].isRed == False:
+                            if board.is_finished() :
                                 redraw_window(win, board, play_time, strikes)
                                 pygame.display.update()
                                 time.sleep(0.7)
@@ -236,8 +239,16 @@ def gameScreen(win,db):
                     board.select(clicked[0], clicked[1])
                     key = None
 
+
         if board.selected and key != None:
             board.sketch(key)
+
+        if strikes == 10:
+            print("Lost")
+            db.add_data((1,1,1000000000000000000))
+            loseScreen(win)
+
+            run = False
 
         redraw_window(win, board, play_time, strikes)
         pygame.display.update()

@@ -7,6 +7,9 @@ from methods import message_to_screen,text_to_button
 pygame.font.init()
 pygame.init()
 
+gameIcon = pygame.image.load('sudokuicon.png')
+pygame.display.set_icon(gameIcon)
+
 db = DataBase("stats.txt")
 win = pygame.display.set_mode((540,600))
 pygame.display.set_caption('Sudoku')
@@ -36,11 +39,13 @@ def gameIntro():
                 pygame.draw.rect(win,yellow,(230,360,100,40))
                 pygame.display.update()
                 statsScreen(win,db)
+
         win.fill(white)
         message_to_screen("Sudoku", black, 80, 180, 230, win) #text,color,fontsize,x,y,win
 
         pygame.draw.rect(win,green,(230,300,100,40))
         text_to_button("PLAY",black,230,300,100,40,win)
+
 
         pygame.draw.rect(win,yellow,(230,360,100,40))
         text_to_button("STATS",black,230,360,100,40,win)
