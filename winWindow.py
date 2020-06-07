@@ -9,6 +9,7 @@ pygame.display.set_caption('Sudoku')
 black = (0,0,0)
 white = (255,255,255)
 red = (255,0,0)
+dark_red = (200,40,40)
 yellow = (200,200,0)
 green = (34,177,76)
 light_green = (0,255,0)
@@ -28,7 +29,8 @@ def winScreen(win,db):
                 pygame.display.update()
                 run = False
             elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pos()[0] in range(280,421) and pygame.mouse.get_pos()[1] in range(350,391):
-                pygame.draw.rect(win,red,(280,350,140,40))
+                pygame.draw.rect(win,red,(280,350,120,40))
+                text_to_button("QUIT",black,280,350,120,40,win)
                 pygame.display.update()
                 pygame.quit()
                 quit()
@@ -45,7 +47,7 @@ def winScreen(win,db):
         pygame.draw.rect(win,green,(120,350,140,40))
         text_to_button("PLAY AGAIN",black,120,350,140,40,win)
 
-        pygame.draw.rect(win,red,(280,350,120,40))
+        pygame.draw.rect(win,dark_red,(280,350,120,40))
         text_to_button("QUIT",black,280,350,120,40,win)
 
         pygame.draw.rect(win,yellow,(220,410,100,40))
