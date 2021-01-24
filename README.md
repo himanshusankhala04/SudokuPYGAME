@@ -1,5 +1,5 @@
 # SudokuPYGAME
-Sudoku app using backtracking approach
+Sudoku app using backtracking approach.
 This app is build in python using pygame library also developed automate checker for game using backtracking algorithm. 
 
 Features Implemented : 
